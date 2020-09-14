@@ -28,7 +28,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DATASOURCE_URL=postgres://postgres@postgres/productdb
+      - DATASOURCE_URL=postgres://postgres:admin@postgres/productdb?sslmode=disable
     command: ./main
     restart: unless-stopped
     depends_on:
