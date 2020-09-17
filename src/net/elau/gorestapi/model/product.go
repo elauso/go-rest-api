@@ -1,11 +1,11 @@
 package model
 
 type Product struct {
-	ID          uint
-	Name        string
-	Type        string
-	Description string
-	Price       float32
+	ID          uint    `json:"id"`
+	Name        string  `json:"name"`
+	Type        string  `json:"type"`
+	Description string  `json:"description"`
+	Price       float32 `json:"price"`
 }
 
 type ProductDao struct{}
@@ -35,4 +35,18 @@ func (pd *ProductDao) List() ([]*Product, error) {
 		return nil, err
 	}
 	return plist, nil
+}
+
+func (pd *ProductDao) Insert(p *Product) (*Product, error) {
+
+	sqlStatement := `insert into product (name, type, description, price) values ($1, $2, $3, $4) returning id`
+	var id uint = 0
+
+	err := db.QueryRow(sqlStatement, p.Name, p.Type, p.Description, p.Price).Scan(&id)
+	if err != nil {
+		return nil, err
+	}
+
+	p.ID = id
+	return p, nil
 }

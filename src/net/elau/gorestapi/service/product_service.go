@@ -8,10 +8,14 @@ type ProductService struct {
 	productDao *model.ProductDao
 }
 
-func NewProductService(productDao *model.ProductDao) *ProductService {
-	return &ProductService{productDao}
+func NewProductService(pd *model.ProductDao) *ProductService {
+	return &ProductService{pd}
 }
 
 func (ps *ProductService) List() ([]*model.Product, error) {
 	return ps.productDao.List()
+}
+
+func (ps *ProductService) Create(p *model.Product) (*model.Product, error) {
+	return ps.productDao.Insert(p)
 }

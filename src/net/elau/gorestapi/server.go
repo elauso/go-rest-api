@@ -24,6 +24,7 @@ func main() {
 
 	pr := config.CreateProductRoute()
 	r.HandleFunc("/products", pr.List).Methods("GET")
+	r.HandleFunc("/products", pr.Create).Methods("POST")
 
 	srv := &http.Server{
 		Handler:      r,
@@ -64,6 +65,6 @@ func waitForShutdown(srv *http.Server) {
 	defer cancel()
 	srv.Shutdown(ctx)
 
-	log.Println("Shuting down...")
+	log.Println("Shutting down...")
 	os.Exit(0)
 }
