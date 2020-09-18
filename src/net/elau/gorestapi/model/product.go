@@ -1,7 +1,9 @@
 package model
 
+import "database/sql"
+
 type Product struct {
-	ID          uint    `json:"id"`
+	ID          uint64  `json:"id"`
 	Name        string  `json:"name"`
 	Type        string  `json:"type"`
 	Description string  `json:"description"`
@@ -16,7 +18,7 @@ func NewProductDao() *ProductDao {
 
 func (pd *ProductDao) List() ([]*Product, error) {
 
-	rows, err := db.Query("select * from product")
+	rows, err := db.Query("SELECT * FROM product")
 	if err != nil {
 		return nil, err
 	}
@@ -37,10 +39,27 @@ func (pd *ProductDao) List() ([]*Product, error) {
 	return plist, nil
 }
 
+func (pd *ProductDao) FindById(id uint64) (*Product, error) {
+
+	sqlStatement := `SELECT * FROM product WHERE id=$1`
+	p := &Product{}
+
+	row := db.QueryRow(sqlStatement, id)
+	err := row.Scan(&p.ID, &p.Name, &p.Type, &p.Description, &p.Price)
+	switch err {
+	case nil:
+		return p, nil
+	case sql.ErrNoRows:
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
 func (pd *ProductDao) Insert(p *Product) (*Product, error) {
 
-	sqlStatement := `insert into product (name, type, description, price) values ($1, $2, $3, $4) returning id`
-	var id uint = 0
+	sqlStatement := `INSERT INTO product(name, type, description, price) VALUES($1, $2, $3, $4) RETURNING id`
+	var id uint64 = 0
 
 	err := db.QueryRow(sqlStatement, p.Name, p.Type, p.Description, p.Price).Scan(&id)
 	if err != nil {

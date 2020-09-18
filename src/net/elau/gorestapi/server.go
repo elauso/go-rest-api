@@ -24,6 +24,7 @@ func main() {
 
 	pr := config.CreateProductRoute()
 	r.HandleFunc("/products", pr.List).Methods("GET")
+	r.HandleFunc("/products/{productId}", pr.Get).Methods("GET")
 	r.HandleFunc("/products", pr.Create).Methods("POST")
 
 	srv := &http.Server{

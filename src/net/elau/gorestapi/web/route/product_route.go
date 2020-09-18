@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/model"
 	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/service"
 	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/web/response"
+	"github.com/gorilla/mux"
 )
 
 type ProductRoute struct {
@@ -33,6 +35,29 @@ func (pr *ProductRoute) List(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(plist)
 }
 
+func (pr *ProductRoute) Get(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	var id uint64
+	var err error
+
+	if id, err = strconv.ParseUint(params["productId"], 10, 64); err != nil {
+		log.Printf("Failed to parse path parameter, %v", err)
+		w.WriteHeader(400)
+		return
+	}
+
+	if p, err := pr.productService.FindById(id); err != nil {
+		log.Printf("Failed to get product, %v", err)
+		w.WriteHeader(500)
+	} else if p == nil {
+		w.WriteHeader(404)
+	} else {
+		w.WriteHeader(200)
+		json.NewEncoder(w).Encode(p)
+	}
+}
+
 func (pr *ProductRoute) Create(w http.ResponseWriter, r *http.Request) {
 
 	var p model.Product
@@ -49,13 +74,14 @@ func (pr *ProductRoute) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := pr.productService.Create(&p)
+	persisted, err := pr.productService.Create(&p)
 	if err != nil {
 		log.Printf("Failed to create product, %v", err)
 		w.WriteHeader(500)
 		return
 	}
 
+	w.Header().Set("Location", fmt.Sprintf("http://%s%s/%d", r.Host, r.URL.Path, persisted.ID))
 	w.WriteHeader(201)
 }
 

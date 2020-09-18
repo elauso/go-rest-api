@@ -16,6 +16,10 @@ func (ps *ProductService) List() ([]*model.Product, error) {
 	return ps.productDao.List()
 }
 
+func (ps *ProductService) FindById(id uint64) (*model.Product, error) {
+	return ps.productDao.FindById(id)
+}
+
 func (ps *ProductService) Create(p *model.Product) (*model.Product, error) {
 	return ps.productDao.Insert(p)
 }
