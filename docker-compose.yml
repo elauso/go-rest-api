@@ -32,6 +32,7 @@ services:
       - 6379:6379
     environment:
       - REDIS_REPLICATION_MODE=master
+    restart: unless-stopped
   
   go-rest-api:
     image: elau/go-rest-api:latest
