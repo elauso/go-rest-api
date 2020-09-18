@@ -18,6 +18,21 @@ services:
       - POSTGRES_DB=productdb
     restart: unless-stopped
   
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    command: redis-server
+    network_mode: bridge
+    volumes:
+      - redis-data:/var/lib/redis
+      - redis.conf:/usr/local/etc/redis/redis.conf
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_REPLICATION_MODE=master
+  
   go-rest-api:
     image: elau/go-rest-api:latest
     container_name: go-rest-api
@@ -28,7 +43,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DATASOURCE_URL=postgres://postgres:admin@postgres/productdb?sslmode=disable
+      - POSTGRES_DATASOURCE=postgres://postgres:admin@postgres/productdb?sslmode=disable
+      - REDIS_DATASOURCE=redis:6379
     command: ./main
     restart: unless-stopped
     depends_on:

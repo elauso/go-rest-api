@@ -18,11 +18,11 @@ import (
 
 func main() {
 
-	model.InitDB(os.Getenv("DATASOURCE_URL"))
+	model.InitDB(os.Getenv("POSTGRES_DATASOURCE"))
 
 	r := mux.NewRouter()
 
-	pr := config.CreateProductRoute()
+	pr, _ := config.CreateProductRoute()
 	r.HandleFunc("/products", pr.List).Methods("GET")
 	r.HandleFunc("/products/{productId}", pr.Get).Methods("GET")
 	r.HandleFunc("/products", pr.Create).Methods("POST")
