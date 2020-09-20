@@ -4,7 +4,7 @@
 
 Essa é uma API REST desenvolvida em Go.
 
-Go é uma linguagem de paradigma imperativo, compilada, com foco em produtividade. Possui tipagem estática, ou seja, as propriedades precisam ter tipos específicos. Por ser uma linguagem compilada possui um desempenho de performance melhor do que outras linguagens como python, java, ect.
+Go é uma linguagem de paradigma imperativo, compilada, com foco em produtividade. Possui tipagem estática, ou seja, as propriedades precisam ter tipos específicos. Por ser uma linguagem compilada possui um desempenho em performance melhor do que outras linguagens como python, java, etc.
 
 Essa é uma API simples para manter os registros de um catálogo de produtos. Possui dois endpoints para consulta e um para cadastro dos produtos. 
 
@@ -14,7 +14,8 @@ No cadastro a aplicação persite o produto em um banco de dados postgresql. A a
 
 O redis é um banco de dados in-memory de alta performance. A partir da versão 5 foi disponibilizado a feature pub/sub que permite a utilização do banco como um broker de mensagens.
 
-https://redis.io/topics/pubsub
+Documentação do redis: https://redis.io/topics/pubsub
+Aprenda golang: https://tour.golang.org/welcome/1
 
 ## Stack
 
