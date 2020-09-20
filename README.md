@@ -38,7 +38,7 @@ Aprenda golang: https://tour.golang.org/welcome/1
 ## Instalação
 
 * Subida da aplicação docker: ``` make docker-build```
-* Subida da aplicação docker sem o make: ``` docker-compose up -d```
+* Subida da aplicação docker sem o make: ``` docker-compose up --build -d```
 
 ## Execução
 
