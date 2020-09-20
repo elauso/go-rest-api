@@ -15,6 +15,7 @@ No cadastro a aplicação persite o produto em um banco de dados postgresql. A a
 O redis é um banco de dados in-memory de alta performance. A partir da versão 5 foi disponibilizado a feature pub/sub que permite a utilização do banco como um broker de mensagens.
 
 Documentação do redis: https://redis.io/topics/pubsub
+
 Aprenda golang: https://tour.golang.org/welcome/1
 
 ## Stack
