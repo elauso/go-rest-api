@@ -13,12 +13,14 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 
 	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/config"
+	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/driver"
 	"github.com/elauso/go-rest-api/src/net/elau/gorestapi/model"
 )
 
 func main() {
 
 	model.InitDB(os.Getenv("POSTGRES_DATASOURCE"))
+	driver.InitRedis(os.Getenv("REDIS_DATASOURCE"))
 
 	r := mux.NewRouter()
 
